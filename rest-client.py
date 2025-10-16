@@ -5,14 +5,12 @@ import json
 import time
 import sys
 import base64
-import jsonpickle  # kept to match starter imports (not strictly required here)
+import jsonpickle 
 import random
 
 def doRawImage(addr, debug=False):
-    # Prepare headers for HTTP request (file is a JPG in the lab assets)
     headers = {'content-type': 'image/jpeg'}
     img = open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb').read()
-    # Send HTTP request with image and receive response
     image_url = addr + '/api/rawimage'
     response = requests.post(image_url, data=img, headers=headers)
     if debug:
@@ -21,7 +19,6 @@ def doRawImage(addr, debug=False):
 
 def doAdd(addr, debug=False):
     headers = {'content-type': 'application/json'}
-    # Send request; body is ignored by server for add
     add_url = addr + "/api/add/5/10"
     response = requests.post(add_url, headers=headers)
     if debug:
@@ -30,7 +27,6 @@ def doAdd(addr, debug=False):
 
 def doDotProduct(addr, debug=False):
     headers = {'content-type': 'application/json'}
-    # Generate two length-100 vectors with values in [0,1)
     a = [random.random() for _ in range(100)]
     b = [random.random() for _ in range(100)]
     url = addr + "/api/dotproduct"
@@ -42,7 +38,6 @@ def doDotProduct(addr, debug=False):
 
 def doJsonImage(addr, debug=False):
     headers = {'content-type': 'application/json'}
-    # Read image bytes and base64-encode into JSON
     with open('Flatirons_Winter_Sunrise_edit_2.jpg', 'rb') as f:
         img_bytes = f.read()
     img_b64 = base64.b64encode(img_bytes).decode('ascii')

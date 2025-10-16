@@ -19,21 +19,17 @@ import base64
 import io
 import logging
 
-# Initialize the Flask application
 app = Flask(__name__)
 
-# Quieter werkzeug logs (optional)
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.DEBUG)
 
 @app.route('/api/add/<int:a>/<int:b>', methods=['GET', 'POST'])
 def add(a, b):
-    # NOTE: starter expected sum as a string; we keep that for compatibility
     response = {'sum': str(a + b)}
     response_pickled = jsonpickle.encode(response)
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
-# route http posts to this method (binary image in the body)
 @app.route('/api/rawimage', methods=['POST'])
 def rawimage():
     try:
@@ -62,7 +58,6 @@ def dotproduct():
     response_pickled = jsonpickle.encode(response)
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
-# JSON payload with base64-encoded image bytes
 @app.route('/api/jsonimage', methods=['POST'])
 def jsonimage():
     try:
@@ -79,5 +74,4 @@ def jsonimage():
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
 if __name__ == "__main__":
-    # Bind on 0.0.0.0 so other VMs can reach it
     app.run(host="0.0.0.0", port=5000)
